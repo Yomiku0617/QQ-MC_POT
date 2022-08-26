@@ -7,16 +7,14 @@ from omega_side.python3_omega_sync.protocol import *
 
 def keywords_plugin(api:API):
     # 发送一条消息到 omega 并接收，可以用来测试连接
-    response=api.do_echo(">>>关键词plugin连接成功<<<",cb=None)
-    print(response.msg)
-    def on_text_packet(packet):
-        print("接受到了聊天数据包") # 每种包内容都不一样，具体内容自己看
-        print("数据包内容为: ",packet) #{'TextType': 1, 'NeedsTranslation': False, 'SourceName': '2401PT', 'Message': '啊吧', 'Parameters': None, 'XUID': '', 'PlatformChatID': '', 'PlayerRuntimeID': ''}
-    
-    # 订阅某类数据包，比如这个就是聊天的数据包
-    response=api.listen_mc_packet(pkt_type="IDText",cb=None,on_new_packet_cb=on_text_packet) # 有哪些数据包请查看开发文档
-    print(response.succ) # True
-    print(response.err) # None
+    response=api.do_echo("hello",cb=None)
+    print(response.msg) # hello
+    response=api.do_get_players_list(cb=None)
+    for player in response:
+        print(player.name) #OmeGoTest
+        print(player.runtimeID) #0
+        print(player.uuid) #00000000-0000-4000-8000-0000392af26c
+        print(player.uniqueID) #-214748364274
 
 
 omega.add_plugin(plugin=keywords_plugin)
