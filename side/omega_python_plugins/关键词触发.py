@@ -1,0 +1,11 @@
+# 插件: 开
+import time
+from omega_side.python3_omega_sync import API
+from omega_side.python3_omega_sync import frame as omega
+from omega_side.python3_omega_sync.bootstrap import install_lib
+from omega_side.python3_omega_sync.protocol import *
+
+def plugin(api:API):
+    # 发送一条消息到 omega 并接收，可以用来测试连接
+    response=api.do_echo("hello",cb=None)
+    print(response.msg) # hello

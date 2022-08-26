@@ -1,4 +1,4 @@
-# 插件: 开
+# 插件: 关
 
 import time
 from omega_side.python3_omega_sync import API
