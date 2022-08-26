@@ -1,13 +1,6 @@
 # 插件: 开
 #install_lib(lib_name="logging",lib_install_name="logging")
-import logging
-logging.basicConfig(
-    level=logging.DEBUG, # 由于默认日志级别为WARNING， 只打印了WARNING, ERROR, CRITICAL的日志
-    format='\033[46;30m %(levelname)s \033[0m\033[36m %(message)s \033[0m',
-    datefmt='%H:%M:%S',
-    # 'filename': 'test.log',
-    # 'filemode': 'w' # 默认是追加模式
-)
+from omega_python_plugins.mylog import *
 import time
 from omega_side.python3_omega_sync import API
 from omega_side.python3_omega_sync import frame as omega
@@ -17,13 +10,19 @@ from omega_side.python3_omega_sync.protocol import *
 def keywords_plugin(api:API):
     # 发送一条消息到 omega 并接收，可以用来测试连接
     response=api.do_echo("关键词插件启动成功",cb=None)
-    print(str(response.msg)) # hello
-    response=api.do_get_players_list(cb=None)
-    for player in response:
-        logging.info("当前玩家名："+str(player.name))
-        print("\033[34m当前玩家名:"+str(player.name)+"\033[0m")
-    response=api.do_send_ws_cmd("/say 执行成功！",cb=None)
-    logging.info(response.result.CommandOrigin)
+    logger.info(str(response.msg)) # hello
 
+    def on_text_packet(packet):
+        logger.info("接受到了聊天数据包") # 每种包内容都不一样，具体内容自己看
+        logger.info("数据包内容为: "+str(packet)) #{'TextType': 1, 'NeedsTranslation': False, 'SourceName': '2401PT', 'Message': '啊吧', 'Parameters': None, 'XUID': '', 'PlatformChatID': '', 'PlayerRuntimeID': ''}
+        playername = str(packet['SourceName'])
+        msg = str(packet['Message'])
+        msgtype = int(packet['TextType'])
+        if (msgtype == 1) or (msgtype == 8):
+            if msg == '112' or msg == ('['+playername+']'+' 112'):
+                api.do_send_player_cmd("/say 触发成功",cb=None)
+
+    # 订阅某类数据包，比如这个就是聊天的数据包
+    response=api.listen_mc_packet(pkt_type="IDText",cb=None,on_new_packet_cb=on_text_packet)
 
 omega.add_plugin(plugin=keywords_plugin)
