@@ -8,7 +8,7 @@ from omega_side.python3_omega_sync.protocol import *
 
 def keywords_plugin(api:API):
     # 发送一条消息到 omega 并接收，可以用来测试连接
-    response=api.do_echo("hello",cb=None)
+    response=api.do_echo("关键词插件启动成功",cb=None)
     print(response.msg) # hello
     response=api.do_get_players_list(cb=None)
     for player in response:
