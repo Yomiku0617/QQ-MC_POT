@@ -1,4 +1,5 @@
 # 插件: 开
+
 import time
 from omega_side.python3_omega_sync import API
 from omega_side.python3_omega_sync import frame as omega
@@ -18,4 +19,3 @@ def keywords_plugin(api:API):
 
 
 omega.add_plugin(plugin=keywords_plugin)
-omega.run(addr=None)
