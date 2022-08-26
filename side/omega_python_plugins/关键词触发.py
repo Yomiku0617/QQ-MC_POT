@@ -12,7 +12,7 @@ def keywords_plugin(api:API):
     print(response.msg) # hello
     response=api.do_get_players_list(cb=None)
     for player in response:
-        print(player.name) #OmeGoTest
+        print("当前玩家名："+player.name) #OmeGoTest
         print(player.runtimeID) #0
         print(player.uuid) #00000000-0000-4000-8000-0000392af26c
         print(player.uniqueID) #-214748364274
