@@ -8,6 +8,6 @@ from omega_side.python3_omega_sync.protocol import *
 def keywords_plugin(api:API):
     # 发送一条消息到 omega 并接收，可以用来测试连接
     response=api.do_echo("hello",cb=None)
-    print(response.msg) # hello
+    print(response.msg+"yomiku")
 
 omega.add_plugin(plugin=keywords_plugin)
