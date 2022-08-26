@@ -18,3 +18,4 @@ def keywords_plugin(api:API):
 
 
 omega.add_plugin(plugin=keywords_plugin)
+omega.run(addr=None)
